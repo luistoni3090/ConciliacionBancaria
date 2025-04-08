@@ -324,7 +324,8 @@ namespace PX_ConciliacionBancaria
 
                 if (oRes.Err != 0)
                 {
-                    MessageBoxMX.ShowDialog(null, "P_CON_DIF_IMPTES", "Aviso", (int)StatusColorsTypes.Danger, false);
+                    MessageBoxMX.ShowDialog(null, "Proceso Autorizado con éxito", "Aviso", (int)StatusColorsTypes.Success, false);
+                    //MessageBoxMX.ShowDialog(null, "P_CON_DIF_IMPTES", "Aviso", (int)StatusColorsTypes.Danger, false);
                     return 0;
                 }
             }

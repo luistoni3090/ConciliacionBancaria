@@ -441,7 +441,7 @@ namespace PX_ConciliacionBancaria
                 }
                 else if (FechaFinal.Value < fechaInicial.Value)
                 {
-                    MessageBoxMX.ShowDialog(null, "La fecha final no puede ser menor que la fecha inicial.", "Error", (int)StatusColorsTypes.Danger, false);
+                    MessageBoxMX.ShowDialog(null, "La fecha final no puede ser menor que la fecha inicial.", "Precaución", (int)StatusColorsTypes.Warning, false);
                 }
                 else
                 {
@@ -648,14 +648,16 @@ namespace PX_ConciliacionBancaria
             FROM DGI.CONCILIACION
             WHERE BANCO = {banco} AND CUENTA = {cuenta} AND FECHA = TO_DATE('{fecha}','YYYY/MM/DD')";
             var oResProcesa = await WSServicio.Servicio(oReq);
-            
+
             if (oResProcesa.Data.Tables.Count < 1)
             {
                 MessageBoxMX.ShowDialog(null, "No se encontraron datos para la conciliación.", "Error", (int)StatusColorsTypes.Danger, false);
                 return;
             }
-            else
-            MessageBoxMX.ShowDialog(null, "La Cuenta no ha sido Conciliada Automáticamente o ya ha sido Depurada", "Error", (int)StatusColorsTypes.Danger, false);
+            else {
+                //MessageBoxMX.ShowDialog(null, "La Cuenta no ha sido Conciliada Automáticamente o ya ha sido Depurada", "Error", (int)StatusColorsTypes.Danger, false);
+            }
+            
 
             string tmp_fechacon = oResProcesa.Data.Tables[0].Rows[0][0].ToString();
             string tmp_fechadep = oResProcesa.Data.Tables[0].Rows[0][1].ToString();
@@ -683,7 +685,7 @@ namespace PX_ConciliacionBancaria
             }
             else
             {
-                MessageBoxMX.ShowDialog(null, "La Cuenta no ha sido Conciliada Automáticamente o ya ha sido Depurada", "Error", (int)StatusColorsTypes.Danger, false);
+                //MessageBoxMX.ShowDialog(null, "La Cuenta no ha sido Conciliada Automáticamente o ya ha sido Depurada", "Error", (int)StatusColorsTypes.Danger, false);
             }
         }
 

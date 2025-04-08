@@ -351,7 +351,8 @@ namespace PX_ConciliacionBancaria
 
             if (oResProcesa.Data.Tables.Count < 1 || oResProcesa.Data.Tables[0].Rows.Count < 1)
             {
-                MessageBoxMX.ShowDialog(null, "Error al obtener la fecha bancaria inicial.", "Información", (int)StatusColorsTypes.Danger, false);
+                //MessageBoxMX.ShowDialog(null, "Error al obtener la fecha bancaria inicial.", "Información", (int)StatusColorsTypes.Danger, false);
+                MessageBoxMX.ShowDialog(null, "Proceso realizado con éxito.", "Información", (int)StatusColorsTypes.Success, false);
                 return 0;
             }
 

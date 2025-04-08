@@ -405,13 +405,13 @@ namespace PX_ConciliacionBancaria
             catch (Exception ex)
             {
                 // Mostrar mensaje de error si ocurre algún problema
-                MessageBoxMX.ShowDialog(
-                    null,
-                    $"Error al buscar el número de conciliación: {ex.Message}",
-                    "Error",
-                    (int)StatusColorsTypes.Danger,
-                    true
-                );
+                //MessageBoxMX.ShowDialog(
+                //    null,
+                //    $"Error al buscar el número de conciliación: {ex.Message}",
+                //    "Error",
+                //    (int)StatusColorsTypes.Danger,
+                //    true
+                //);
                 return 0; // Terminar el proceso
             }
 

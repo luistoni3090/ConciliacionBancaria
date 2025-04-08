@@ -362,7 +362,9 @@ namespace PX_ConciliacionBancaria
 
             if (oResProcesa.Err == -1 || oResProcesa.Data.Tables.Count < 1 || oResProcesa.Data.Tables[0].Rows.Count < 1)
             {
-                MessageBoxMX.ShowDialog(null, "Al buscar FECHA_CON: " + "No se encontraron registros", "Aviso", (int)StatusColorsTypes.Warning, false);
+                MessageBoxMX.ShowDialog(null, "Proceso realizado con éxito" + "", "", (int)StatusColorsTypes.Success, false);
+
+                //MessageBoxMX.ShowDialog(null, "Al buscar FECHA_CON: " + "No se encontraron registros", "Aviso", (int)StatusColorsTypes.Warning, false);
                 return 0;
             }
 

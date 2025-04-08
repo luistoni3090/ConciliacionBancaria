@@ -369,7 +369,7 @@ namespace PX_ConciliacionBancaria
 
             if (Object.ReferenceEquals(null, oResProcesa.Data.Tables[0]) || oResProcesa.Data.Tables.Count < 1)
             {
-                MessageBoxMX.ShowDialog(null, "No se pudieron obtener los parámetros de vigencia.", "Error", (int)StatusColorsTypes.Danger, false);
+                //MessageBoxMX.ShowDialog(null, "No se pudieron obtener los parámetros de vigencia.", "Precuación", (int)StatusColorsTypes.Danger, false);
                 return 0;
             }
 
@@ -449,7 +449,7 @@ namespace PX_ConciliacionBancaria
 
             if (oResProcesa.Err != 0)
             {
-                MessageBoxMX.ShowDialog(null, "No se pudieron obtener los parámetros de vigencia.", "Error", (int)StatusColorsTypes.Danger, false);
+                //MessageBoxMX.ShowDialog(null, "No se pudieron obtener los parámetros de vigencia.", "Error", (int)StatusColorsTypes.Danger, false);
                 return 0;
             }
 

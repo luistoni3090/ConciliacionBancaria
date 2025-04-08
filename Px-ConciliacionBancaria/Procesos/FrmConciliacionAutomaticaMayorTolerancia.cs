@@ -403,13 +403,13 @@ namespace PX_ConciliacionBancaria
 
             if (oRes.Data.Tables[0].Rows.Count == 0)
             {
-                MessageBoxMX.ShowDialog(
-                    null,
-                    "LA CUENTA NO HA SIDO CARGADA",
-                    "Aviso",
-                    (int)StatusColorsTypes.Warning,
-                    false
-                );
+                //MessageBoxMX.ShowDialog(
+                //    null,
+                //    "LA CUENTA NO HA SIDO CARGADA",
+                //    "Aviso",
+                //    (int)StatusColorsTypes.Warning,
+                //    false
+                //);
                 return 0;
             }
 

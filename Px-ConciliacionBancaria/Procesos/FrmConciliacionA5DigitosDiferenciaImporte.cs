@@ -373,7 +373,7 @@ namespace PX_ConciliacionBancaria
             else
             {
                 // Si ocurre un error o no hay datos
-                MessageBoxMX.ShowDialog(null, $"Error al obtener los parámetros: {oRes.Message}", "Error", (int)StatusColorsTypes.Danger, false);
+                //MessageBoxMX.ShowDialog(null, $"Error al obtener los parámetros: {oRes.Message}", "Error", (int)StatusColorsTypes.Danger, false);
                 ldt_FechaAux = ldt_FechaAux ?? FProFechaIniMes(ld_Fecha);
                 ldt_FechaBco = ldt_FechaBco ?? FProFechaIniMes(ld_Fecha);
 

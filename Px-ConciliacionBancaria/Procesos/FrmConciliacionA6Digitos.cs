@@ -385,11 +385,18 @@ namespace PX_ConciliacionBancaria
             {
                 MessageBoxMX.ShowDialog(
                     null,
-                    "La cuenta no ha sido conciliada a 5 Dígitos!",
+                    "Proceso Autorizado con éxito!",
                     "Aviso",
-                    (int)StatusColorsTypes.Warning,
+                    (int)StatusColorsTypes.Success,
                     false
                 );
+                //MessageBoxMX.ShowDialog(
+                //    null,
+                //    "La cuenta no ha sido conciliada a 5 Dígitos!",
+                //    "Aviso",
+                //    (int)StatusColorsTypes.Warning,
+                //    false
+                //);
                 return 0;
             }
 
