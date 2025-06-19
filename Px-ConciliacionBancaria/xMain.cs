@@ -27,6 +27,11 @@ using Px_Controles.Helpers;
 using Px_Controles.Forms.Msg;
 using Px_Controles.Controls.NavigationMenu;
 
+using Px_Controles.Forms.Login;
+using Px_Utiles.Models.Sistemas.ConciliacionBancaria.Seguridad;
+using Px_Utiles.Utiles.DataTables;
+using Px_Utiles.Models.Sistemas.ConciliacionBancaria.Catalogos;
+
 using Px_ConciliacionBancaria.Catalogos;
 using Px_ConciliacionBancaria.Properties;
 using Px_ConciliacionBancaria.Utiles.Theme;
@@ -35,6 +40,8 @@ using Px_ConciliacionBancaria.Catalogos.Controles;
 
 using static Px_ConciliacionBancaria.Utiles.Emun.Enumerados;
 using PX_ConciliacionBancaria;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
 
 namespace Px_ConciliacionBancaria
 {
@@ -43,12 +50,20 @@ namespace Px_ConciliacionBancaria
         eRequest oReq = new eRequest();
         Timer TimerStatus = new Timer();
 
+        public Color _ForeColor { get; set; } = Color.Navy;
+        public Color _BackColor { get; set; } = Color.White;
+        public Color _BackAquaColor { get; set; } = Color.White;
+
+        private int ColorR = 0;
+        private int ColorG = 0;
+        private int ColorB = 0;
+
         #region Constructores
         public xMain()
         {
             InitializeComponent();
 
-            Inicio();
+            _= Inicio();
         }
 
 
@@ -75,13 +90,16 @@ namespace Px_ConciliacionBancaria
             Generales._AppState.Base = "conciliacionbancaria";
             Generales._AppState.EndPoint = ConfigurationManager.AppSettings["EndPoint"].ToString();
 
+            // Generales._AppState.Base = ConfigurationManager.AppSettings["Base"].ToString();
+            // Generales._AppState.Owner = ConfigurationManager.AppSettings["Owner"].ToString();
+            // Generales._AppState.EndPoint = ConfigurationManager.AppSettings["EndPoint"].ToString();
 
-            Generales._AppState.Empresa = 1;
-            Generales._AppState.Ejercicio = DateTime.Now.Year;
 
-
+            oReq.Base = Generales._AppState.Base;
+            oReq.EndPoint = Generales._AppState.EndPoint;
 
             await InicioForma();
+            await LoginInicia();
             await conActualiza();
 
 
@@ -111,19 +129,146 @@ namespace Px_ConciliacionBancaria
 
             lblVer.Text = string.Format("Version: {0}", Application.ProductVersion);
 
-            ArbolCrea();
-            MenuCrea();
+            //ArbolCrea();
+            //MenuCrea();
 
             await Status($"{this.Text}  .:: Power by PANXEA | Wero MX ::.", (int)MensajeTipo.Info);
         }
 
+        private async Task LoginInicia()
+        {
+            await Task.Delay(0);
+
+            bool bExito = await FrmLogin.MostrarLogin(this, LoginValida, LoginSalir, Generales._AppState.Base, "Sistema de Conciliación Bancaria", false);
+
+            if (bExito)
+            {
+
+                panXTittle.Enabled = true;
+
+               ArbolCrea();
+               MenuCrea();
+
+                await LoginIniciaParametros();
+
+                await Status($"Bienvenido {Generales._AppState._Empleado.Nombre}", (int)MensajeTipo.Success);
+            }
+            else
+            {
+                await Status($"Logueo incorrecto, el sistema se cerrará.", (int)MensajeTipo.Error);
+                // Invocar cierre del sistema
+            }
+
+        }
+
+        private async Task LoginSalir()
+        {
+            this.Close();
+        }
+
+        private async Task LoginIniciaParametros()
+        {
+            try
+            {
+
+                //ConfigHelper.ActualizarAppSettings("Ejercicio", Generales._AppState.Ejercicio.ToString());
+                //ConfigHelper.ActualizarAppSettings("Periodo", Generales._AppState.Periodo.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                await Status($"Error al iniciar parámetros: {ex.Message}", (int)MensajeTipo.Error);
+            }
+
+        }
+
         #endregion
+
+        private async Task<bool> LoginValida(string sUsuario, string sPassword)
+        {
+
+            if (string.IsNullOrEmpty(sUsuario))
+            {
+                await Status($"Debe de indicar al usuario.", (int)MensajeTipo.Error);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(sPassword))
+            {
+                await Status($"Debe de indicar la contraseña.", (int)MensajeTipo.Error);
+                return false;
+            }
+
+            //await Task.Delay(3000);
+            Cursor = Cursors.WaitCursor;
+            await Status($"Validando usuario", (int)MensajeTipo.General);
+
+            bool bExito = false;
+            eEMPLEADO xUsu = new eEMPLEADO();
+            string sPass = "";
+            try
+            {
+
+                oReq.Query = $@"
+                   SELECT DGI_USR.RFC,
+                       DGI_USR.SYSUSER, 
+                       DGI_USR.APP_PWD,
+                       DGI_ROL_USR.ROL,                       
+                        DGI_ROL_USR.APP_LOGIN
+                  FROM DGI.DGI_ROL_USR,   
+                       DGI.DGI_USR, 
+                       DGI.DGI_USR_BD
+                  WHERE DGI_ROL_USR.APP_LOGIN = DGI_USR.APP_LOGIN AND
+                        DGI_USR.SYSUSER = DGI_USR_BD.SYSUSER AND
+                           DGI_USR.APP_LOGIN = '{sUsuario}' 
+                    ";
+
+
+                var oRes = await WSServicio.Servicio(oReq);
+                if (oRes.Data.Tables.Count > 0 && oRes.Data.Tables[0].Rows.Count > 0)
+                {
+                    xUsu = oRes.Data.Tables[0].Rows[0].RowAObjetoDe<eEMPLEADO>();
+                }
+
+                if (string.IsNullOrEmpty(xUsu.APP_PWD))
+                {
+                    await Status($"No se encontró al usuario {sUsuario}.", (int)MensajeTipo.Error);
+                }
+                else
+                {
+                    if (sPassword.Trim() == xUsu.APP_PWD.Trim())
+                    {
+                        //if (xUsu.EMP_MPACT == "S")
+                        //{
+                        bExito = true;
+                        await Status($"Usuario correcto.", (int)MensajeTipo.Success);
+                        //}
+                        //else
+                        //{
+                        //await Status($"El {sUsuario}, ha sido desactivado del sistema consulte a su administrador.", (int)MensajeTipo.Error);
+                        //}
+                    }
+                    else
+                    {
+                        await Status($"La contraseña es incorrecta.", (int)MensajeTipo.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Status($"{ex.Message}", (int)MensajeTipo.Error);
+            }
+
+            Cursor = Cursors.Default;
+
+            return bExito;
+        }
 
         #region Eventos
         private void xMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Status("¿Deseas salir de contabilidad del GBC?", (int)MensajeTipo.Question);
-            e.Cancel = MessageBoxMX.ShowDialog(null, "¿Deseas salir de contabilidad del GBC?", lblTitulo.Text, (int)StatusColorsTypes.Question, true) == System.Windows.Forms.DialogResult.OK ? false : true;
+            e.Cancel = MessageBoxMX.ShowDialog(null, "¿Deseas salir de Conciliación Bancaria del GBC?", lblTitulo.Text, (int)StatusColorsTypes.Question, true) == System.Windows.Forms.DialogResult.OK ? false : true;
 
         }
 

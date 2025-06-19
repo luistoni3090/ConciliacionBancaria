@@ -1,4 +1,6 @@
 ﻿using Px_ConciliacionBancaria.Utiles.Modelos;
+using Px_Utiles.Models.Sistemas.ConciliacionBancaria.Catalogos;
+using Px_Utiles.Models.Sistemas.ConciliacionBancaria.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;

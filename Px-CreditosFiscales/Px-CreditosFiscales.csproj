@@ -132,6 +132,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utiles\Constantes\Constantes.cs" />
     <Compile Include="Utiles\Emun\Enumerados.cs" />
+    <Compile Include="Utiles\Generales\ConfigHelper.cs" />
     <Compile Include="Utiles\Generales\Generales.cs" />
     <Compile Include="Utiles\Modelos\AppState.cs" />
     <Compile Include="Utiles\Theme\ThemeColor.cs" />

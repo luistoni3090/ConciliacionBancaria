@@ -79,8 +79,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Seguridad\eEMPLEADO.cs" />
     <Compile Include="Models\Sistemas\ConciliacionBancaria\Catalogos\eBANCO.cs" />
+    <Compile Include="Models\Sistemas\ConciliacionBancaria\Catalogos\eCUENTA.cs" />
     <Compile Include="Models\Sistemas\ConciliacionBancaria\Catalogos\eCUENTASBANCARIAS.cs" />
+    <Compile Include="Models\Sistemas\ConciliacionBancaria\Catalogos\eEMPRESA.cs" />
     <Compile Include="Models\Sistemas\ConciliacionBancaria\Catalogos\eMONEDA.cs" />
     <Compile Include="Models\Sistemas\ConciliacionBancaria\Catalogos\ePARAMETROSISTEMA.cs" />
     <Compile Include="Models\Sistemas\ConciliacionBancaria\Catalogos\eREGLASVALIDACION.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Models\Sistemas\ConciliacionBancaria\General\ComboBoxItemInt.cs" />
     <Compile Include="Models\Sistemas\ConciliacionBancaria\Procesos\eDET_POLIZA.cs" />
     <Compile Include="Models\Sistemas\ConciliacionBancaria\Procesos\ePOLIZA.cs" />
+    <Compile Include="Models\Sistemas\ConciliacionBancaria\Seguridad\eEMPLEADO.cs" />
     <Compile Include="Models\Sistemas\Contabilidad\Catalogos\eCLASE.cs" />
     <Compile Include="Models\Sistemas\Contabilidad\Catalogos\eCUENTA.cs" />
     <Compile Include="Models\Sistemas\Contabilidad\Catalogos\eCUENTA_DEPRECIACION.cs" />
